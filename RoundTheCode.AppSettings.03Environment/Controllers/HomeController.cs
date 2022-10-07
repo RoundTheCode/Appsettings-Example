@@ -7,10 +7,12 @@ namespace RoundTheCode.AppSettings.Controllers
     public class HomeController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _environment;
 
-        public HomeController(IConfiguration configuration)
+        public HomeController(IConfiguration configuration, IWebHostEnvironment environment)
         {
             _configuration = configuration;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -18,10 +20,12 @@ namespace RoundTheCode.AppSettings.Controllers
         {
             return Ok(new
             {
+                Environment = _environment.EnvironmentName,
                 ClientId = _configuration.GetValue<string>("Authentication:ClientId"),
                 ClientSecret = _configuration.GetValue<string>("Authentication:ClientSecret"),
                 AllowedHosts = _configuration.GetSection("Authentication:AllowedHosts").Get<string[]>(),
-                Attempts = _configuration.GetValue<int>("Authentication:Attempts")
+                Attempts = _configuration.GetValue<int>("Authentication:Attempts"),
+                LiveHost = _configuration.GetValue<string>("LiveHost")
             });
         }
     }
