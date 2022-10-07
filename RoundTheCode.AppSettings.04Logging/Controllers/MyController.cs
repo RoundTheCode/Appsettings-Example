@@ -16,6 +16,8 @@ namespace RoundTheCode.AppSettings.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            _logger.LogInformation("This is my page");
+
             return Ok(new { Success = true });
         }
     }
